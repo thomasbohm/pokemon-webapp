@@ -3,7 +3,7 @@ import axios from 'axios';
 import logo from './resources/logo.svg';
 import './resources/styles.css';
 
-const SERVER_URL = 'https://ccf6-2001-a61-3462-cd01-45ca-9792-c7d2-cdad.ngrok.io/'
+const SERVER_URL = 'https://6e7a-2001-a61-3462-cd01-45ca-9792-c7d2-cdad.ngrok.io'
 const POKEMON_URL = 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/'
 
 export default function App() {
@@ -28,33 +28,6 @@ export default function App() {
     } catch (e) {
       console.log('Error: ' + e);
     }
-  }
-
-  function resize(file) {
-    var img = document.createElement("img");
-    img.src = window.URL.createObjectURL(file);
-    var canvas = document.createElement('canvas'); 
-
-    var MAX_WIDTH = 800;
-    var MAX_HEIGHT = 600;
-    var width = img.width;
-    var height = img.height;
-
-    if (width > height) {
-      if (width > MAX_WIDTH) {
-        height *= MAX_WIDTH / width;
-        width = MAX_WIDTH;
-      }
-    } else {
-      if (height > MAX_HEIGHT) {
-        width *= MAX_HEIGHT / height;
-        height = MAX_HEIGHT;
-      }
-    }
-    canvas.width = width;
-    canvas.height = height;
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0, width, height);
   }
 
   return (
