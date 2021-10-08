@@ -19,7 +19,7 @@ class Classifier:
             img = self.transform(img).unsqueeze(0)
             pred = self.model(img)
 
-            pokemon_id = int(pred.argmax() +1)
+            pokemon_id = int(pred.argmax() + 1)
 
         return pokemon_id, *POKEMON_NAMES[pokemon_id]
 
