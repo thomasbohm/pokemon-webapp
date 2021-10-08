@@ -1,0 +1,66 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-size: 16px;
+}
+
+.app {
+    background-image: url(./background.jpg);
+    background-position: center;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    height: 100vh;
+}
+
+.logo {
+    width: 90vw;
+    margin-top: 3rem;
+}
+
+.pokemon-img {
+    width: 50vw;
+}
+
+@media screen and (min-width: 600px) {
+    .logo {
+        width: 40vw;
+    }
+
+    .pokemon-img {
+        width: 10vw !important;
+    }
+}
+
+.inputfile {
+	display: none;
+}
+
+.inputLabel {
+    background-color: #FFDE00;
+    border: 15px solid #3B4CCA;
+    color: #3B4CCA;
+    border-radius: 3px;
+    padding: 1rem;
+    font-weight: 900;
+    cursor: pointer;
+    font-family: sans-serif;
+    margin-bottom: 3rem;
+}
+
+.info {
+    margin: 3rem;
+    flex-grow: 1;
+}
+
+.info>div {
+    background-color: rgb(59, 76, 202, .7);
+    padding: 1rem 1.5rem;
+    border-radius: 5px;
+    font-family: sans-serif;
+    font-weight: 900;
+    color: white;
+}
