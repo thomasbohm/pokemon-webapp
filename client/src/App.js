@@ -1,45 +1,24 @@
 import { Suspense, useState } from 'react';
 import axios from 'axios';
-import i18n from 'i18next';
-import { initReactI18next, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import SyncLoader from "react-spinners/SyncLoader";
+
 import logo from './resources/logo.svg';
 import germany from './resources/germany.png';
 import uk from './resources/uk.png';
 import './resources/styles.css';
+import './i18n'
 
-const SERVER_URL = 'https://6e7a-2001-a61-3462-cd01-45ca-9792-c7d2-cdad.ngrok.io';
+const SERVER_URL = 'https://fd13-93-104-178-254.ngrok.io';
 const POKEMON_URL = 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/';
 
-const translationsEn = {
-  title: "Pokemon Classifier",
-  info: "Select an Image of a Pokemon and see how it's called.",
-  select: "SELECT IMAGE",
-  thats: "That's ",
-};
-const translationsDe = {
-  title: "Pokemon Klassifizierer",
-  info: "Nimm ein Foto von einem Pokemon, und schau wie es heißt.",
-  select: "FOTO WÄHLEN",
-  thats: "Das ist ",
-};
-
-i18n
-  .use(initReactI18next)
-  .init({
-    resources: {
-      en: { translation: translationsEn },
-      de: { translation: translationsDe },
-    },
-    lng: "en",
-    fallbackLng: "en",
-    interpolation: { escapeValue: false },
-  });
-
 export default function App() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [pokemon, setPokemon] = useState();
+  const [loading, setLoading] = useState(false);
 
   async function submit(event) {
+    setLoading(true);
     const img = event.target.files[0];
     if (!img) {
       return;
@@ -57,6 +36,8 @@ export default function App() {
       setPokemon(res.data)
     } catch (e) {
       console.log('Error: ' + e);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -72,18 +53,19 @@ export default function App() {
     <Suspense fallback="Loading...">
       <div className="app">
           <img className="logo" src={logo} alt="Pokemon Logo" />
-          <div className="info">
-            {pokemon ?
-              <div>
-                <h2>{t('thats') + i18n.language === 'en' ? pokemon.en.toUpperCase() : pokemon.de.toUpperCase()}</h2>
-                <img className="pokemon-img" src={POKEMON_URL + `${pokemon.id}`.padStart(3, '0') + '.png'} alt={pokemon.en}/>
-              </div> :
-              <div>
-                <h2>{t("title")}</h2>
-                <p>{t("info")}</p>
-              </div>
-            }         
-          </div>
+            <div className="info">
+              {loading ? <SyncLoader color='#FFDE00' size={20}/> :
+                pokemon ?
+                  <div>
+                    <h2>{t('thats') + (i18n.language === 'en' ? pokemon.en.toUpperCase() : pokemon.de.toUpperCase())}</h2>
+                    <img className="pokemon-img" src={POKEMON_URL + `${pokemon.id}`.padStart(3, '0') + '.png'} alt={pokemon.en}/>
+                  </div> :
+                  <div>
+                    <h2>{t("title")}</h2>
+                    <p>{t("info")}</p>
+                  </div>
+              }         
+            </div>
           <input className="inputfile" type="file" id="file" onChange={submit} accept=".jpg,.jpeg,.png,.svg" />
           <label className="inputLabel" htmlFor="file">{t('select')}</label>
           {i18n.language === 'en' ?
